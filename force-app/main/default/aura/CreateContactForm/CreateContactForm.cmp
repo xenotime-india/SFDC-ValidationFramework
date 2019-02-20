@@ -1,0 +1,82 @@
+<aura:component controller="ContactController">
+  <aura:attribute
+    name="newContact"
+    type="Contact"
+    default="{ 'sobjectType': 'Contact',
+                        'Name': '',
+                        'Email': '',
+                        'BirthDate': ''}"
+  />
+
+  <!-- PAGE HEADER -->
+  <lightning:layout class="slds-page-header slds-page-header--object-home">
+    <lightning:layoutItem>
+      <lightning:icon
+        iconName="standard:contact"
+        alternativeText="New Contact"
+      />
+    </lightning:layoutItem>
+    <lightning:layoutItem padding="horizontal-small">
+      <div class="page-section page-header">
+        <h1 class="slds-text-heading--label">Contact</h1>
+        <h2 class="slds-text-heading--medium">New Contact</h2>
+      </div>
+    </lightning:layoutItem>
+  </lightning:layout>
+  <!-- / PAGE HEADER -->
+  <!-- NEW CONTACT FORM -->
+  <lightning:layout>
+    <lightning:layoutItem padding="around-small" size="6">
+      <!-- CREATE NEW CONTACT -->
+      <div aria-labelledby="newexpenseform">
+        <!-- BOXED AREA -->
+        <fieldset class="slds-box slds-theme--default slds-container--small">
+          <legend
+            id="newexpenseform"
+            class="slds-text-heading--small 
+                slds-p-vertical--medium"
+          >
+            Add Contact
+          </legend>
+
+          <!-- CREATE NEW CONTACT FORM -->
+          <form class="slds-form--stacked">
+            <lightning:input
+              aura:id="contactform"
+              label="Contact Name"
+              name="contactname"
+              value="{!v.newContact.Name}"
+              required="true"
+            />
+            <lightning:input
+              type="email"
+              aura:id="contactform"
+              label="Email"
+              name="contactemail"
+              value="{!v.newContact.Email}"
+              messageWhenBadInput="Enter a valid email address."
+            />
+            <lightning:input
+              type="date"
+              aura:id="contactform"
+              label="BirthDate"
+              name="contactbirthdate"
+              value="{!v.newContact.BirthDate}"
+            />
+
+            <lightning:button
+              label="Create Expense"
+              class="slds-m-top--medium"
+              variant="brand"
+              onclick="{!c.clickCreate}"
+            />
+          </form>
+          <!-- / CREATE NEW CONTACT FORM -->
+        </fieldset>
+        <!-- / BOXED AREA -->
+      </div>
+      <!-- / CREATE NEW CONTACT -->
+    </lightning:layoutItem>
+  </lightning:layout>
+  <!-- / NEW CONTACT FORM -->
+</aura:component>
