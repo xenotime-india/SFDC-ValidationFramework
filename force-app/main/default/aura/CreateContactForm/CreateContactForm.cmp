@@ -5,12 +5,37 @@
 >
   <aura:attribute
     name="newContact"
-    type="Contact"
-    default="{ 'sobjectType': 'Contact',
-                        'FirstName': '',
-                        'LastName': '',
-                        'Email': '',
-                        'Birthdate': ''}"
+    type="List"
+    default="[
+  {
+    'name': 'FirstName',
+    'value': '',
+    'dataType': 'text',
+    'label': 'First Name',
+    'isRequired': true,
+    'message': 'First Name is required.',
+  },
+  {
+    'name': 'LastName',
+    'value': '',
+    'dataType': 'text',
+    'label':  'Last Name',
+    'isRequired': true,
+    'message': 'Last Name is required.',
+  },
+  {
+    'name': 'Email',
+    'value': '',
+    'dataType': 'email',
+    'label':  'Email'
+  },
+  {
+    'name': 'Birthdate',
+    'value': '',
+    'dataType': 'date',
+    'label':  'Birth Date'
+  }
+]"
   />
 
   <!-- PAGE HEADER -->
@@ -46,38 +71,18 @@
 
           <!-- CREATE NEW CONTACT FORM -->
           <form class="slds-form--stacked">
-            <lightning:input
-              aura:id="contactform"
-              label="Contact First Name"
-              name="contactfname"
-              value="{!v.newContact.FirstName}"
-              required="true"
-            />
-            <lightning:input
-              aura:id="contactform"
-              label="Contact Last Name"
-              name="contactlname"
-              value="{!v.newContact.LastName}"
-              required="true"
-            />
-            <lightning:input
-              type="email"
-              aura:id="contactform"
-              label="Email"
-              name="contactemail"
-              value="{!v.newContact.Email}"
-              messageWhenBadInput="Enter a valid email address."
-            />
-            <lightning:input
-              type="date"
-              aura:id="contactform"
-              label="Birth Date"
-              name="contactbirthdate"
-              value="{!v.newContact.Birthdate}"
-            />
+            <aura:iteration items="{!v.newContact}" var="field">
+              <lightning:input
+                aura:id="contactform"
+                label="{!field.label}"
+                name="{!field.name}"
+                value="{!field.value}"
+                type="{!field.dataType}"
+              />
+            </aura:iteration>
 
             <lightning:button
-              label="Create Expense"
+              label="Create Contact"
               class="slds-m-top--medium"
               variant="brand"
               onclick="{!c.clickCreate}"
