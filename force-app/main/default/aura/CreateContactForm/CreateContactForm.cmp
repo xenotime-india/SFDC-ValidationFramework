@@ -1,11 +1,16 @@
-<aura:component controller="ContactController">
+<aura:component
+  controller="ContactController"
+  implements="flexipage:availableForAllPageTypes"
+  access="global"
+>
   <aura:attribute
     name="newContact"
     type="Contact"
     default="{ 'sobjectType': 'Contact',
-                        'Name': '',
+                        'FirstName': '',
+                        'LastName': '',
                         'Email': '',
-                        'BirthDate': ''}"
+                        'Birthdate': ''}"
   />
 
   <!-- PAGE HEADER -->
@@ -43,9 +48,16 @@
           <form class="slds-form--stacked">
             <lightning:input
               aura:id="contactform"
-              label="Contact Name"
-              name="contactname"
-              value="{!v.newContact.Name}"
+              label="Contact First Name"
+              name="contactfname"
+              value="{!v.newContact.FirstName}"
+              required="true"
+            />
+            <lightning:input
+              aura:id="contactform"
+              label="Contact Last Name"
+              name="contactlname"
+              value="{!v.newContact.LastName}"
               required="true"
             />
             <lightning:input
@@ -59,9 +71,9 @@
             <lightning:input
               type="date"
               aura:id="contactform"
-              label="BirthDate"
+              label="Birth Date"
               name="contactbirthdate"
-              value="{!v.newContact.BirthDate}"
+              value="{!v.newContact.Birthdate}"
             />
 
             <lightning:button
