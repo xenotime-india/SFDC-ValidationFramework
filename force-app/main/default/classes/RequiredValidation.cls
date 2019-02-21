@@ -2,9 +2,9 @@
 Name : RequiredValidation 
 Author : Sandeep Kumar
 Date : February 20th,2019
-Usage : check required field validation .
+Usage : Validator implemention for check required field.
 *************************************************************************/
-public class RequiredValidation {
+public class RequiredValidation implements IValidator {
     
     /**
 	 * processing required field validation logic

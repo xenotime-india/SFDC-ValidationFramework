@@ -2,9 +2,9 @@
 Name : MaxLengthValidation 
 Author : Sandeep Kumar
 Date : February 20th,2019
-Usage : check maximum allow length validation .
+Usage : Validator implemention for check maximum allow length .
 *************************************************************************/
-public class MaxLengthValidation {
+public class MaxLengthValidation implements IValidator {
     
     /**
 	 * processing required field validation logic
