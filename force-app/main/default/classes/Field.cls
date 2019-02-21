@@ -21,18 +21,21 @@ public class Field {
 	 * field label
 	 */
     public String label {get;set;}
+    
     /**
-	 * field message
+	 * List of validation rules
 	 */
-	public String message {get;set;}
-    /**
-	 * field isRequired
-	 */
-	public Boolean isRequired {get;set;}
-	
-    public Field() {}
+	public List<Rule> rules {get;set;}
+
+    public void addRule(Rule rule){
+		rules.add(rule);
+	}
+
+    public Field() {
+        this.rules = new List<Rule>();
+    }
 	
 	public override String toString() {
-		return '[ name='+name+', value='+value+' ]';
+		return '[ name='+name+', value='+value+', rules='+rules+' ]';
 	}
 }

@@ -15,8 +15,15 @@ public with sharing class ContactController {
         
         Map<String, String> errorMessageMap = new Map<String, String>();
         for(Field fieldObj : fields) {
-            if(fieldObj.isRequired == true && !new RequiredValidation().execute(fieldObj)) {
-                errorMessageMap.put(fieldObj.name, fieldObj.message);
+            if(fieldObj.rules != null) {
+                for(Rule ruleObj : fieldObj.rules) {
+                    if(ruleObj.name == 'REQUIRED' && !new RequiredValidation().execute(fieldObj, ruleObj)) {
+                        errorMessageMap.put(fieldObj.name, ruleObj.message);
+                    }
+                    if(ruleObj.name == 'MAX_LENGTH' && !new MaxLengthValidation().execute(fieldObj, ruleObj)) {
+                        errorMessageMap.put(fieldObj.name, ruleObj.message);
+                    }
+                }
             }
         }
         System.debug('errorMessageMap =>' + errorMessageMap);

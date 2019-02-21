@@ -12,16 +12,32 @@
     'value': '',
     'dataType': 'text',
     'label': 'First Name',
-    'isRequired': true,
-    'message': 'First Name is required.',
+    'rules': [ {
+        'name': 'MAX_LENGTH',
+        'message': 'Last Name must be of maximum 40 characters length',
+        'parameters': {
+          'value': 40
+        }
+      }
+    ]
   },
   {
     'name': 'LastName',
     'value': '',
     'dataType': 'text',
     'label':  'Last Name',
-    'isRequired': true,
-    'message': 'Last Name is required.',
+    'rules': [ {
+        'name': 'REQUIRED',
+        'message': 'Last Name Is required',
+      },
+      {
+        'name': 'MAX_LENGTH',
+        'message': 'Last Name must be of maximum 40 characters length',
+        'parameters': {
+          'value': 40
+        }
+      }
+    ]
   },
   {
     'name': 'Email',
