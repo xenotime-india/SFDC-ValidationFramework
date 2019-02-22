@@ -6,39 +6,42 @@ Usage : Verification field pojo.
 *************************************************************************/
 public class Field extends AbstractValidateInput{
 	/**
-	 * Name of the field
-	 */
+  * Name of the field
+  */
 	@AuraEnabled
 	public String name {get;set;}
+
 	/**
-	 * field value
-	 */
+  * field value
+  */
 	@AuraEnabled
 	public String value {get;set;}
-    /**
-	 * field dataType
-	 */
+
+  /**
+  * field dataType
+  */
 	@AuraEnabled
-    public String dataType {get;set;}
-    /**
-	 * field label
-	 */
+  public String dataType {get;set;}
+  
+  /**
+  * field label
+  */
 	@AuraEnabled
-    public String label {get;set;}
+  public String label {get;set;}
     
-    /**
-	 * List of validation rules
-	 */
+  /**
+  * List of validation rules
+  */
 	@AuraEnabled
 	public List<Rule> rules {get;set;}
 
-    public void addRule(Rule rule){
+  public void addRule(Rule rule){
 		rules.add(rule);
 	}
 
-    public Field() {
-        this.rules = new List<Rule>();
-    }
+  public Field() {
+    this.rules = new List<Rule>();
+  }
 
 	public Field(String name, String label, String dataType) {
 		this.name = name;
@@ -46,6 +49,6 @@ public class Field extends AbstractValidateInput{
 		this.dataType = dataType;
 
 		this.value = '';
-        this.rules = new List<Rule>();
-    }
+    this.rules = new List<Rule>();
+  }
 }

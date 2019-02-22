@@ -5,6 +5,7 @@ Date : February 21th,2019
 Usage : Verification configuration pojo.
 *************************************************************************/
 public class Configuration {
+	
 	/**
 	 * Validator mapping
 	 */

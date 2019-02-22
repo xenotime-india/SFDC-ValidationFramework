@@ -6,21 +6,21 @@ Usage : Verification Group pojo.
 *************************************************************************/
 public class FieldGroup extends AbstractValidateInput{
 	
-    /**
-	 * group label
-	 */
+	/**
+	* group label
+	*/
 	@AuraEnabled
-    public String label {get;set;}
+	public String label {get;set;}
 
 	/**
-	 * group name
-	 */
+	* group name
+	*/
 	@AuraEnabled
-    public String name {get;set;}
+	public String name {get;set;}
 
-    /**
-	 * List of fields
-	 */
+	/**
+	* List of fields
+	*/
 	@AuraEnabled
 	public List<Field> fields {get;set;}
 
@@ -28,24 +28,24 @@ public class FieldGroup extends AbstractValidateInput{
 		fields.add(fieldObj);
 	}
 
-    /**
-	 * List of validation rules
-	 */
+	/**
+	* List of validation rules
+	*/
 	@AuraEnabled
 	public List<Rule> rules {get;set;}
 
-    public void addRule(Rule ruleObj){
+	public void addRule(Rule ruleObj){
 		rules.add(ruleObj);
 	}
 
 	public FieldGroup() {
-        this.rules = new List<Rule>();
-        this.fields = new List<Field>();
-    }
+		this.rules = new List<Rule>();
+		this.fields = new List<Field>();
+	}
 
-    public FieldGroup(String name) {
+	public FieldGroup(String name) {
 		this.name = name;
-        this.rules = new List<Rule>();
-        this.fields = new List<Field>();
-    }
+		this.rules = new List<Rule>();
+		this.fields = new List<Field>();
+	}
 }

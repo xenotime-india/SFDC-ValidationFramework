@@ -24,6 +24,11 @@
 					});
 				} else {
 					// Process server success response
+					component.find('contactform').forEach(inputCmp => {
+						inputCmp.setCustomValidity('');
+						inputCmp.reportValidity();
+					});
+					helper.loadForm(component);
 					helper.showToast({
 						type: 'success',
 						title: 'Success!',
