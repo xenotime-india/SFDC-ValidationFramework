@@ -1,0 +1,23 @@
+<aura:component controller="InputController">
+  <aura:attribute name="label" type="String" />
+  <aura:attribute name="name" type="String" />
+  <aura:attribute name="rules" type="List" />
+  <aura:attribute name="value" type="String" />
+  <aura:attribute name="type" type="String" default="text" />
+  <aura:attribute name="asyncValidate" type="Boolean" default="false" />
+  <aura:method name="showHelpMessageIfInvalid"> </aura:method>
+  <aura:method name="getValidity"></aura:method>
+  <aura:method name="setCustomValidity">
+    <aura:attribute name="message" type="String" default="" />
+  </aura:method>
+  <aura:method name="reportValidity"></aura:method>
+
+  <lightning:input
+    label="{!v.label}"
+    name="{!v.name}"
+    aura:id="inputField"
+    value="{!v.value}"
+    onblur="{!c.checkIfValid}"
+    type="{!v.type}"
+  />
+</aura:component>

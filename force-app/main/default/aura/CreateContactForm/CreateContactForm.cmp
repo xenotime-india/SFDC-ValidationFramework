@@ -28,7 +28,7 @@
     'label':  'Last Name',
     'rules': [ {
         'name': 'REQUIRED',
-        'message': 'Last Name Is required',
+        'message': 'Last Name is required',
       },
       {
         'name': 'MAX_LENGTH',
@@ -43,7 +43,12 @@
     'name': 'Email',
     'value': '',
     'dataType': 'email',
-    'label':  'Email'
+    'label':  'Email',
+    'rules': [ {
+        'name': 'REQUIRED',
+        'message': 'Email is required',
+      }
+    ]
   },
   {
     'name': 'Birthdate',
@@ -88,11 +93,13 @@
           <!-- CREATE NEW CONTACT FORM -->
           <form class="slds-form--stacked">
             <aura:iteration items="{!v.newContact}" var="field">
-              <lightning:input
-                aura:id="contactform"
-                label="{!field.label}"
+              <c:input
+                asyncValidate="false"
                 name="{!field.name}"
+                label="{!field.label}"
+                aura:id="contactform"
                 value="{!field.value}"
+                rules="{!field.rules}"
                 type="{!field.dataType}"
               />
             </aura:iteration>
