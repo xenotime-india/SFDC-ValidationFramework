@@ -4,7 +4,7 @@ Author : Sandeep Kumar
 Date : February 21th,2019
 Usage : Verification configuration.
 *************************************************************************/
-public class ValidatorConfig {
+public class ValidatorConfig implements IValidatorConfig{
     public ValidatorConfig() {}
 
     public Configuration readConfiguration() {

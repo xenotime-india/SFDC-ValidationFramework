@@ -6,29 +6,6 @@ Usage : Controller class for CreateContactForm lc
 *************************************************************************/
 
 public with sharing class ContactController {
-
-    public static Map<String, String> validate(List<Field> fields) {
-        Configuration configObj = new ValidatorConfig().readConfiguration();
-        
-        Map<String,String> results = new Map<String,String>();
-        if(fields == null || fields.isEmpty()) return results; 
-        
-        Map<String,IValidator> validators = configObj.validators;
-        if(validators == null || validators.isEmpty()) return results;
-        
-        for(Field fieldObj: fields) {
-            if(fieldObj.rules == null || fieldObj.rules.isEmpty()) continue;
-            
-            for(Rule ruleObj : fieldObj.rules) {
-                IValidator validator = validators.get(ruleObj.name);
-                if(validator != null && !validator.execute(fieldObj, ruleObj)) {
-                    results.put(fieldObj.name, ruleObj.message);
-                }
-            }
-        }
-        
-        return results;
-    }
     
     @AuraEnabled
     public static Map<String, String> createContact(String payload) {
@@ -36,7 +13,9 @@ public with sharing class ContactController {
         List<Field> fields = (List<Field>)System.JSON.deserializeStrict(payload, List<Field>.Class);
         System.debug('fields =>' + fields);
         
-        Map<String, String> errorMessageMap = ContactController.validate(fields);
+        ValidateService validationServiceObj = new ValidateService();
+
+        Map<String, String> errorMessageMap = validationServiceObj.validate(fields);
         
         System.debug('errorMessageMap =>' + errorMessageMap);
         if(!errorMessageMap.isEmpty()) {
