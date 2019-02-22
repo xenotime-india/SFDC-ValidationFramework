@@ -98,7 +98,7 @@
           <form class="slds-form--stacked">
             <aura:iteration items="{!v.newContact.inputs}" var="field">
               <aura:if isTrue="{!field.className == 'Field'}">
-                <c:input
+                <c:Input
                   asyncValidate="false"
                   name="{!field.name}"
                   label="{!field.label}"
@@ -110,7 +110,7 @@
               </aura:if>
               <aura:if isTrue="{!field.className == 'FieldGroup'}">
                 <aura:iteration items="{!field.fields}" var="gfield">
-                  <c:input
+                  <c:Input
                     asyncValidate="false"
                     name="{!gfield.name}"
                     group="{!field.name}"
