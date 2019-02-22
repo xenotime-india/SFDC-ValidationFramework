@@ -3,6 +3,10 @@
   implements="flexipage:availableForAllPageTypes"
   access="global"
 >
+  <!-- Handle component initialization in a client-side controller -->
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+  <aura:attribute name="newContact" type="Form" />
+  <!--
   <aura:attribute
     name="newContact"
     type="List"
@@ -57,7 +61,7 @@
     'label':  'Birth Date'
   }
 ]"
-  />
+  />-->
 
   <!-- PAGE HEADER -->
   <lightning:layout class="slds-page-header slds-page-header--object-home">
@@ -92,16 +96,32 @@
 
           <!-- CREATE NEW CONTACT FORM -->
           <form class="slds-form--stacked">
-            <aura:iteration items="{!v.newContact}" var="field">
-              <c:input
-                asyncValidate="false"
-                name="{!field.name}"
-                label="{!field.label}"
-                aura:id="contactform"
-                value="{!field.value}"
-                rules="{!field.rules}"
-                type="{!field.dataType}"
-              />
+            <aura:iteration items="{!v.newContact.inputs}" var="field">
+              <aura:if isTrue="{!field.className == 'Field'}">
+                <c:input
+                  asyncValidate="false"
+                  name="{!field.name}"
+                  label="{!field.label}"
+                  aura:id="contactform"
+                  value="{!field.value}"
+                  rules="{!field.rules}"
+                  type="{!field.dataType}"
+                />
+              </aura:if>
+              <aura:if isTrue="{!field.className == 'FieldGroup'}">
+                <aura:iteration items="{!field.fields}" var="gfield">
+                  <c:input
+                    asyncValidate="false"
+                    name="{!gfield.name}"
+                    group="{!field.name}"
+                    label="{!gfield.label}"
+                    aura:id="contactform"
+                    value="{!gfield.value}"
+                    rules="{!gfield.rules}"
+                    type="{!gfield.dataType}"
+                  />
+                </aura:iteration>
+              </aura:if>
             </aura:iteration>
 
             <lightning:button

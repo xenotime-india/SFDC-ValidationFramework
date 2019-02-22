@@ -4,27 +4,32 @@ Author : Sandeep Kumar
 Date : February 20th,2019
 Usage : Verification field pojo.
 *************************************************************************/
-public class Field {
+public class Field extends AbstractValidateInput{
 	/**
 	 * Name of the field
 	 */
+	@AuraEnabled
 	public String name {get;set;}
 	/**
 	 * field value
 	 */
+	@AuraEnabled
 	public String value {get;set;}
     /**
 	 * field dataType
 	 */
+	@AuraEnabled
     public String dataType {get;set;}
     /**
 	 * field label
 	 */
+	@AuraEnabled
     public String label {get;set;}
     
     /**
 	 * List of validation rules
 	 */
+	@AuraEnabled
 	public List<Rule> rules {get;set;}
 
     public void addRule(Rule rule){
@@ -34,8 +39,13 @@ public class Field {
     public Field() {
         this.rules = new List<Rule>();
     }
-	
-	public override String toString() {
-		return '[ name='+name+', value='+value+', rules='+rules+' ]';
-	}
+
+	public Field(String name, String label, String dataType) {
+		this.name = name;
+		this.label = label;
+		this.dataType = dataType;
+
+		this.value = '';
+        this.rules = new List<Rule>();
+    }
 }

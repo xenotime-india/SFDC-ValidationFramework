@@ -8,12 +8,13 @@ public class MaxLengthValidation implements IValidator {
     
     /**
 	 * processing required field validation logic
-	 * @param field Object Object value
+	 * @param field or group Object Object value
 	 * @param rule Object parameter
 	 * @return whether succeed
 	 */
-	public boolean execute(Field fieldObj, Rule ruleObj) {
-        if(String.isBlank(fieldObj.value)) {
+	public boolean execute(AbstractValidateInput inputObj, Rule ruleObj) {
+		Field fieldObj = (inputObj.className == 'Field') ? (Field) inputObj : null;
+        if(fieldObj == null || String.isBlank(fieldObj.value)) {
             return true;
         }
         Integer length = fieldObj.value.length();

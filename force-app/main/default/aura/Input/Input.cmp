@@ -1,6 +1,7 @@
 <aura:component controller="InputController">
   <aura:attribute name="label" type="String" />
   <aura:attribute name="name" type="String" />
+  <aura:attribute name="group" type="String" />
   <aura:attribute name="rules" type="List" />
   <aura:attribute name="value" type="String" />
   <aura:attribute name="type" type="String" default="text" />

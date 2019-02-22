@@ -8,14 +8,17 @@ public class Rule {
     /**
 	 * Rule name
 	 */
+    @AuraEnabled
     public String name {get;set;}
     /**
 	 * Message after verification failed
 	 */
+    @AuraEnabled
     public String message {get;set;}
     /**
 	 * parameter
 	 */
+    @AuraEnabled
     public Map<String,String> parameters {get;set;}
     
     public void addParameter(String name, String value){
@@ -27,6 +30,13 @@ public class Rule {
     }
     
     public Rule() {
+        this.parameters = new Map<String, String>();
+    }
+
+    public Rule(String name, String message) {
+        this.name = name;
+        this.message = message;
+
         this.parameters = new Map<String, String>();
     }
     

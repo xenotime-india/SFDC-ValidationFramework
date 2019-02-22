@@ -7,9 +7,9 @@ Usage : This interface is an important interface to handle the processing of eac
 public interface IValidator {
     /**
 	 * processing validation logic
-	 * @param field Object Object value
+	 * @param field or group Object Object value
 	 * @param rule Object parameter
 	 * @return whether succeed
 	 */
-    Boolean execute(Field fieldObj, Rule ruleObj);
+    Boolean execute(AbstractValidateInput fieldObj, Rule ruleObj);
 }

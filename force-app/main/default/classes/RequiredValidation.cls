@@ -6,13 +6,14 @@ Usage : Validator implemention for check required field.
 *************************************************************************/
 public class RequiredValidation implements IValidator {
     
-    /**
+  /**
 	 * processing required field validation logic
-	 * @param field Object Object value
+	 * @param field or group Object Object value
 	 * @param rule Object parameter
 	 * @return whether succeed
 	 */
-	public boolean execute(Field fieldObj, Rule ruleObj) {
-		return String.isNotBlank(fieldObj.value);
+	public boolean execute(AbstractValidateInput inputObj, Rule ruleObj) {
+		Field fieldObj = (inputObj.className == 'Field') ? (Field) inputObj : null;
+		return (fieldObj == null || String.isNotBlank(fieldObj.value));
 	}
 }
