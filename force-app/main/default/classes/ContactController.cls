@@ -17,9 +17,12 @@ public with sharing class ContactController {
 
     formObj.addInput(firstName);
 
-    // last name field with REQUIRED validation
+    // last name field with REQUIRED & MAX_LENGTH validation
     Field lastName = new Field('LastName', 'Last Name', 'text');
     lastName.addRule(new Rule('REQUIRED', 'Last Name is required'));
+    Rule lastNameRule = new Rule('MAX_LENGTH', 'Last Name must be of maximum 40 characters length');
+    lastNameRule.addParameter('value', '40');
+    lastName.addRule(lastNameRule);
 
     formObj.addInput(lastName);
 

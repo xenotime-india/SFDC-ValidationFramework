@@ -6,63 +6,6 @@
   <!-- Handle component initialization in a client-side controller -->
   <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
   <aura:attribute name="newContact" type="Form" />
-  <!--
-  <aura:attribute
-    name="newContact"
-    type="List"
-    default="[
-  {
-    'name': 'FirstName',
-    'value': '',
-    'dataType': 'text',
-    'label': 'First Name',
-    'rules': [ {
-        'name': 'MAX_LENGTH',
-        'message': 'Last Name must be of maximum 40 characters length',
-        'parameters': {
-          'value': 40
-        }
-      }
-    ]
-  },
-  {
-    'name': 'LastName',
-    'value': '',
-    'dataType': 'text',
-    'label':  'Last Name',
-    'rules': [ {
-        'name': 'REQUIRED',
-        'message': 'Last Name is required',
-      },
-      {
-        'name': 'MAX_LENGTH',
-        'message': 'Last Name must be of maximum 40 characters length',
-        'parameters': {
-          'value': 40
-        }
-      }
-    ]
-  },
-  {
-    'name': 'Email',
-    'value': '',
-    'dataType': 'email',
-    'label':  'Email',
-    'rules': [ {
-        'name': 'REQUIRED',
-        'message': 'Email is required',
-      }
-    ]
-  },
-  {
-    'name': 'Birthdate',
-    'value': '',
-    'dataType': 'date',
-    'label':  'Birth Date'
-  }
-]"
-  />-->
-
   <!-- PAGE HEADER -->
   <lightning:layout class="slds-page-header slds-page-header--object-home">
     <lightning:layoutItem>
