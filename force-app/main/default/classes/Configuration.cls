@@ -11,14 +11,6 @@ public class Configuration {
    */
   public Map<String,IValidator> validators {get;set;}
   
-  public void addValidator(String name,IValidator validator){
-    this.validators.put(name, validator);
-  }
-  
-  public IValidator getValidator(String name){
-    return this.validators.get(name);
-  }
-  
   public Configuration() {
     this.validators = new Map<String,IValidator>();
   }
