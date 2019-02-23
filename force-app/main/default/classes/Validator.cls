@@ -6,13 +6,13 @@ Usage : Validator pojo.
 *************************************************************************/
 public class Validator {
 
-	/**
-	 * Validator Name
-	 */
-	public String name { get; set; }
-	
-	/**
-	 * Validator apex class Name
-	 */
-	public String className { get; set; }
+  /**
+  * Validator Name
+  */
+  public String name { get; set; }
+  
+  /**
+  * Validator apex class Name
+  */
+  public String className { get; set; }
 }

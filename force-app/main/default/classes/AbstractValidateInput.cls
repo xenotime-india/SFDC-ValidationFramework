@@ -6,8 +6,8 @@ Usage : This abstract handle field and group for validation
 *************************************************************************/
 public abstract class AbstractValidateInput {
 
-	@AuraEnabled
-	public String className{ get {
-		return String.valueOf(this).split(':')[0];
-	}}
+  @AuraEnabled
+  public String className{ get {
+    return String.valueOf(this).split(':')[0];
+  }}
 }

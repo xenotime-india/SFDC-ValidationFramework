@@ -5,50 +5,50 @@ Date : February 20th,2019
 Usage : Verification field pojo.
 *************************************************************************/
 public class Field extends AbstractValidateInput{
-	/**
+  /**
   * Name of the field
   */
-	@AuraEnabled
-	public String name {get;set;}
+  @AuraEnabled
+  public String name {get;set;}
 
-	/**
+  /**
   * field value
   */
-	@AuraEnabled
-	public String value {get;set;}
+  @AuraEnabled
+  public String value {get;set;}
 
   /**
   * field dataType
   */
-	@AuraEnabled
+  @AuraEnabled
   public String dataType {get;set;}
   
   /**
   * field label
   */
-	@AuraEnabled
+  @AuraEnabled
   public String label {get;set;}
-    
+  
   /**
   * List of validation rules
   */
-	@AuraEnabled
-	public List<Rule> rules {get;set;}
+  @AuraEnabled
+  public List<Rule> rules {get;set;}
 
   public void addRule(Rule rule){
-		rules.add(rule);
-	}
+    rules.add(rule);
+  }
 
   public Field() {
     this.rules = new List<Rule>();
   }
 
-	public Field(String name, String label, String dataType) {
-		this.name = name;
-		this.label = label;
-		this.dataType = dataType;
+  public Field(String name, String label, String dataType) {
+    this.name = name;
+    this.label = label;
+    this.dataType = dataType;
 
-		this.value = '';
+    this.value = '';
     this.rules = new List<Rule>();
   }
 }

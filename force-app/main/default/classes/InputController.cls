@@ -1,5 +1,5 @@
 public with sharing class InputController {
-    
+  
   @AuraEnabled
   public static Map <String, String> asyncValidate(String payload) {
     System.debug(payload);

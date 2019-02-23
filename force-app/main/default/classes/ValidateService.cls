@@ -20,7 +20,7 @@ public class ValidateService implements IValidateService {
   public void init() {
     //Read configuration
     this.configuration = config.readConfiguration();
-    
+  
     //Settings have been initialized
     this.isInited = true;
   }
@@ -28,7 +28,7 @@ public class ValidateService implements IValidateService {
   public Map<String, String> validate(List<AbstractValidateInput> inputs) {
     //Determine whether it is initialized
     if(!this.isInited) this.init();
-    
+  
     Map<String,String> results = new Map<String,String>();
     if(inputs == null || inputs.isEmpty()) return results; 
     
@@ -63,7 +63,7 @@ public class ValidateService implements IValidateService {
           results.putAll(fieldGroupVResults);
         }
       }
-    } 
+    }
     return results; 
   }
 
