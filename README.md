@@ -86,27 +86,74 @@ The following examples are a subset of those found in the [ContactController.cls
 
   @AuraEnabled
   public static Map<String, String> createContact(String payload) {
-    List<Object> untypedInputObjects = (List<Object>)((Map<String, Object>) JSON.deserializeUntyped(payload)).get('inputs');
-    List<AbstractValidateInput> fields = new List<AbstractValidateInput>();
-    for(Object untypedInputObject : untypedInputObjects) {
-      String fieldPayload = JSON.serialize(untypedInputObject);
+    //Initializing the wrapper message
+    AuraProcessingMessage returnMessage = new AuraProcessingMessage();
+
+    try{
+      List<Object> untypedInputObjects = (List<Object>)((Map<String, Object>) JSON.deserializeUntyped(payload)).get('inputs');
+      List<AbstractValidateInput> fields = new List<AbstractValidateInput>();
+      for(Object untypedInputObject : untypedInputObjects) {
+        String fieldPayload = JSON.serialize(untypedInputObject);
+        
+        String typeName = (String) ( (Map<String, Object>) JSON.deserializeUntyped(fieldPayload) ).get('className');
+        fields.add((AbstractValidateInput)JSON.deserialize(fieldPayload, Type.forName(typeName)));
+      }
       
-      String typeName = (String) ( (Map<String, Object>) JSON.deserializeUntyped(fieldPayload) ).get('className');
-      fields.add((AbstractValidateInput)JSON.deserialize(fieldPayload, Type.forName(typeName)));
-    }
-    
-    ValidateService validationServiceObj = new ValidateService();
+      ValidateService validationServiceObj = ValidateService.getInstance();
+      Map<String, String> errorMessageMap = validationServiceObj.validate(fields);
+      
+      if(!errorMessageMap.isEmpty()) {
+        throw new ValidationException(errorMessageMap);
+      }
+      Contact newContactObj = new Contact();
+      validationServiceObj.fieldsToObjectMapping(newContactObj, fields);
+      
+      insert newContactObj;
 
-    Map<String, String> errorMessageMap = validationServiceObj.validate(fields);
-    
-    if(!errorMessageMap.isEmpty()) {
-      return errorMessageMap;
-    }
-    Contact newContactObj = new Contact();
-    validationServiceObj.fieldsToObjectMapping(newContactObj, fields);
-    
-    insert newContactObj;
+      //Adding the success message if the record is created
+      returnMessage.successMsg=SUCCESS_MESSAGE;
+    } catch(ValidationException ex) {
+        system.debug('Debug Exception Message'+ex.getMessage());
+        returnMessage.isSuccess = false;
 
-    return null;
+        //Adding the validation message if an validationException is occured
+        returnMessage.validationMsg = ex.validationMsg;
+    } catch(Exception ex) {
+      system.debug('Debug Exception Message'+ex.getMessage());
+      returnMessage.isSuccess = false;
+
+      //Adding the error message if an exception is occured
+      returnMessage.errorMsg = ERROR_MESSAGE + ex.getMessage();
+    }
+    //Return the error message
+    return returnMessage;
+  }
+
+  public class AuraProcessingMessage {
+
+    @AuraEnabled 
+    public Boolean isSuccess { get; set; }
+    
+    @AuraEnabled 
+    public String errorMsg { get; set; } //error msg
+    
+    @AuraEnabled 
+    public Map<String, String> validationMsg { get; set; } //error msg
+    
+    @AuraEnabled 
+    public String successMsg { get; set; } //success msg
+
+    public AuraProcessingMessage(){
+      isSuccess = true;
+      validationMsg = new Map<String, String>();
+    }
+  }
+
+  public class ValidationException extends Exception {
+    public Map<String, String> validationMsg { get; set; }
+
+    public ValidationException(Map<String, String> validationMsg) {
+      this.validationMsg = validationMsg;
+    }
   }
 ```

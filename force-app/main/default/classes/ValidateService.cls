@@ -8,11 +8,26 @@ public class ValidateService implements IValidateService {
   public Configuration configuration { get; set;}
   private IValidatorConfig config { get; set;}
   private boolean isInited { get; set;}
+  // private static variable referencing the class
+  private static ValidateService instance = null;
+
+  // a static method that returns the instance of ValidateService with default config
+  public static ValidateService getInstance(){
+    // lazy load the configuration - only initialize if it doesn't already exist
+    if(instance == null) instance = new ValidateService();
+    return instance;
+  }
+  // a static method that returns the instance of ValidateService with config
+  public static ValidateService getInstance(IValidatorConfig config){
+    // lazy load the configuration - only initialize if it doesn't already exist
+    if(instance == null) instance = new ValidateService(config);
+    return instance;
+  }
   
-  public ValidateService() {
+  private ValidateService() {
     this(new ValidatorConfig());
   }
-  public ValidateService(IValidatorConfig config) {
+  private ValidateService(IValidatorConfig config) {
     this.config = config;
     this.isInited = false;
   }

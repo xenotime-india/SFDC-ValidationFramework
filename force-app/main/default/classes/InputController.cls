@@ -4,7 +4,7 @@ public with sharing class InputController {
   public static Map <String, String> asyncValidate(String payload) {
     Field fieldObj = (Field)System.JSON.deserializeStrict(payload, Field.Class);
     
-    ValidateService validationServiceObj = new ValidateService();
+    ValidateService validationServiceObj = ValidateService.getInstance();
     Map<String, String> errorMessageMap = validationServiceObj.validate(new List<Field>{fieldObj});
     
     return errorMessageMap;

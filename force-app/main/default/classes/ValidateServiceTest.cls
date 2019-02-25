@@ -73,7 +73,7 @@ public class ValidateServiceTest {
     formObj.addInput(experience);
 
     // executing validate service
-    ValidateService validationServiceObj = new ValidateService();
+    ValidateService validationServiceObj = ValidateService.getInstance();
     Map<String, String> errorMessageMap = validationServiceObj.validate(formObj.inputs);
 
     // Test that the validation correctly send error messages

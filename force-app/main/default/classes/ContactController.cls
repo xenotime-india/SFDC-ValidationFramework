@@ -98,7 +98,7 @@ public with sharing class ContactController {
         fields.add((AbstractValidateInput)JSON.deserialize(fieldPayload, Type.forName(typeName)));
       }
       
-      ValidateService validationServiceObj = new ValidateService();
+      ValidateService validationServiceObj = ValidateService.getInstance();
       Map<String, String> errorMessageMap = validationServiceObj.validate(fields);
       
       if(!errorMessageMap.isEmpty()) {
