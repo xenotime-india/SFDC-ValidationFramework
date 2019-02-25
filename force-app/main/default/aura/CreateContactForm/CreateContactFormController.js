@@ -8,21 +8,10 @@
 		const action = component.get('c.createContact');
 		action.setParams({ payload: JSON.stringify(newContact) });
 		action.setCallback(this, function(response) {
-			const results = response.getReturnValue();
+			const result = response.getReturnValue();
 			const state = response.getState();
 			if (state === 'SUCCESS') {
-				if (results) {
-					component.find('contactform').forEach(inputCmp => {
-						if (results[inputCmp.get('v.name')]) {
-							inputCmp.setCustomValidity(results[inputCmp.get('v.name')]);
-						} else if (results[inputCmp.get('v.group')]) {
-							inputCmp.setCustomValidity(results[inputCmp.get('v.group')]);
-						} else {
-							inputCmp.setCustomValidity('');
-						}
-						inputCmp.reportValidity();
-					});
-				} else {
+				if (result.isSuccess) {
 					// Process server success response
 					component.find('contactform').forEach(inputCmp => {
 						inputCmp.setCustomValidity('');
@@ -33,6 +22,23 @@
 						type: 'success',
 						title: 'Success!',
 						message: 'The record has been created successfully.'
+					});
+				} else if (result.errorMsg) {
+					helper.showToast({
+						type: 'error',
+						title: 'Error!',
+						message: errorMsg
+					});
+				} else {
+					component.find('contactform').forEach(inputCmp => {
+						if (result.validationMsg[inputCmp.get('v.name')]) {
+							inputCmp.setCustomValidity(result.validationMsg[inputCmp.get('v.name')]);
+						} else if (result.validationMsg[inputCmp.get('v.group')]) {
+							inputCmp.setCustomValidity(result.validationMsg[inputCmp.get('v.group')]);
+						} else {
+							inputCmp.setCustomValidity('');
+						}
+						inputCmp.reportValidity();
 					});
 				}
 			} else if (state === 'ERROR') {

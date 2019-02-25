@@ -1,7 +1,7 @@
 @isTest
 public class ValidateServiceTest {
   
-  @isTest static void testName() {
+  @isTest static void testFormValidation() {
     // code_block
     Form formObj = new Form();
 
@@ -72,10 +72,12 @@ public class ValidateServiceTest {
 
     formObj.addInput(experience);
 
+    // executing validate service
     ValidateService validationServiceObj = new ValidateService();
-
     Map<String, String> errorMessageMap = validationServiceObj.validate(formObj.inputs);
 
+    // Test that the validation correctly send error messages
+    System.assertEquals(4,errorMessageMap.size());
     Contact newContactObj = new Contact();
     validationServiceObj.fieldsToObjectMapping(newContactObj, formObj.inputs);
   }

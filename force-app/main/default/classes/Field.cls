@@ -28,6 +28,12 @@ public class Field extends AbstractValidateInput{
   */
   @AuraEnabled
   public String label {get;set;}
+
+  /**
+  * field label
+  */
+  @AuraEnabled
+  public Boolean asyncValidate {get; set;}
   
   /**
   * List of validation rules
@@ -40,6 +46,7 @@ public class Field extends AbstractValidateInput{
   }
 
   public Field() {
+    this.asyncValidate = false;
     this.rules = new List<Rule>();
   }
 
@@ -47,7 +54,7 @@ public class Field extends AbstractValidateInput{
     this.name = name;
     this.label = label;
     this.dataType = dataType;
-
+    this.asyncValidate = false;
     this.value = '';
     this.rules = new List<Rule>();
   }

@@ -6,6 +6,12 @@ Usage : Controller class for CreateContactForm lc
 *************************************************************************/
 
 public with sharing class ContactController {
+
+  //String Constant for Success Message
+  private static final string SUCCESS_MESSAGE = 'Record created successfully';
+
+  //String Constant for Error Message
+  private static final string ERROR_MESSAGE = 'Error Message From Apex: n';
   
   @AuraEnabled
   public static Form init() {
@@ -14,6 +20,7 @@ public with sharing class ContactController {
     // first name field with REQUIRED validation
     Field firstName = new Field('FirstName', 'First Name', 'text');
     firstName.addRule(new Rule('REQUIRED', 'First Name is required'));
+    //firstName.asyncValidate = true;
 
     formObj.addInput(firstName);
 
@@ -77,34 +84,81 @@ public with sharing class ContactController {
   }
 
   @AuraEnabled
-  public static Map<String, String> createContact(String payload) {
-    System.debug('payload =>' + payload);
-    List<Object> untypedInputObjects = (List<Object>)((Map<String, Object>) JSON.deserializeUntyped(payload)).get('inputs');
-    List<AbstractValidateInput> fields = new List<AbstractValidateInput>();
-    for(Object untypedInputObject : untypedInputObjects) {
-      String fieldPayload = JSON.serialize(untypedInputObject);
-      System.debug('fieldPayload =>' + fieldPayload);
+  public static AuraProcessingMessage createContact(String payload) {
+    //Initializing the wrapper message
+    AuraProcessingMessage returnMessage = new AuraProcessingMessage();
+
+    try{
+      List<Object> untypedInputObjects = (List<Object>)((Map<String, Object>) JSON.deserializeUntyped(payload)).get('inputs');
+      List<AbstractValidateInput> fields = new List<AbstractValidateInput>();
+      for(Object untypedInputObject : untypedInputObjects) {
+        String fieldPayload = JSON.serialize(untypedInputObject);
+        
+        String typeName = (String) ( (Map<String, Object>) JSON.deserializeUntyped(fieldPayload) ).get('className');
+        fields.add((AbstractValidateInput)JSON.deserialize(fieldPayload, Type.forName(typeName)));
+      }
       
-      String typeName = (String) ( (Map<String, Object>) JSON.deserializeUntyped(fieldPayload) ).get('className');
-      System.debug('typeName =>' + typeName);
-      fields.add((AbstractValidateInput)JSON.deserialize(fieldPayload, Type.forName(typeName)));
-    }
-    
-    System.debug('fields =>' + fields);
-    
-    ValidateService validationServiceObj = new ValidateService();
+      ValidateService validationServiceObj = new ValidateService();
+      Map<String, String> errorMessageMap = validationServiceObj.validate(fields);
+      
+      if(!errorMessageMap.isEmpty()) {
+        throw new ValidationException(errorMessageMap);
+      }
+      Contact newContactObj = new Contact();
+      validationServiceObj.fieldsToObjectMapping(newContactObj, fields);
+      
+      insert newContactObj;
 
-    Map<String, String> errorMessageMap = validationServiceObj.validate(fields);
-    
-    System.debug('errorMessageMap =>' + errorMessageMap);
-    if(!errorMessageMap.isEmpty()) {
-      return errorMessageMap;
-    }
-    Contact newContactObj = new Contact();
-    validationServiceObj.fieldsToObjectMapping(newContactObj, fields);
-    
-    insert newContactObj;
+      //Adding the success message if the record is created
+      returnMessage.successMsg=SUCCESS_MESSAGE;
+    } catch(ValidationException ex) {
+        system.debug('Debug Exception Message'+ex.getMessage());
+        returnMessage.isSuccess = false;
 
-    return null;
+        //Adding the validation message if an validationException is occured
+        returnMessage.validationMsg = ex.validationMsg;
+    } catch(Exception ex) {
+      system.debug('Debug Exception Message'+ex.getMessage());
+      returnMessage.isSuccess = false;
+
+      //Adding the error message if an exception is occured
+      returnMessage.errorMsg = ERROR_MESSAGE + ex.getMessage();
+    }
+    //Return the error message
+    return returnMessage;
+  }
+
+/************************************************************
+  Name: AuraProcessingMessage
+  Type: Wrapper  Class
+  Purpose: Wrapper  Class to hold error and success
+          message to  display in  lightning component
+***********************************************************/
+  public class AuraProcessingMessage {
+
+    @AuraEnabled 
+    public Boolean isSuccess { get; set; }
+    
+    @AuraEnabled 
+    public String errorMsg { get; set; } //error msg
+    
+    @AuraEnabled 
+    public Map<String, String> validationMsg { get; set; } //error msg
+    
+    @AuraEnabled 
+    public String successMsg { get; set; } //success msg
+
+    public AuraProcessingMessage(){
+      isSuccess = true;
+      validationMsg = new Map<String, String>();
+    }
+  }
+
+  public class ValidationException extends Exception {
+    public Map<String, String> validationMsg { get; set; }
+
+    public ValidationException(Map<String, String> validationMsg) {
+      this.validationMsg = validationMsg;
+    }
   }
 }

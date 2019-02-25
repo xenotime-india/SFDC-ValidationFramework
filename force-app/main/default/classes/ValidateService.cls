@@ -24,7 +24,12 @@ public class ValidateService implements IValidateService {
     //Settings have been initialized
     this.isInited = true;
   }
-  
+
+  /**
+  * method to start validation on list of inputs
+  * @param List of AbstractValidateInput
+  * @return Map of error message & field name
+  */
   public Map<String, String> validate(List<AbstractValidateInput> inputs) {
     //Determine whether it is initialized
     if(!this.isInited) this.init();
@@ -42,9 +47,13 @@ public class ValidateService implements IValidateService {
           if(fieldObj.rules == null || fieldObj.rules.isEmpty()) continue;
           
           for(Rule ruleObj : fieldObj.rules) {
-            IValidator validator = validators.get(ruleObj.name);
-            if(validator != null && !validator.execute(fieldObj, ruleObj)) {
-              results.put(fieldObj.name, ruleObj.message);
+            try {
+              IValidator validator = validators.get(ruleObj.name);
+              if(validator != null && !validator.execute(fieldObj, ruleObj)) {
+                results.put(fieldObj.name, ruleObj.message);
+              }
+            } catch(Exception e) {
+              results.put(fieldObj.name, e.getMessage());
             }
           }
         }
@@ -53,9 +62,13 @@ public class ValidateService implements IValidateService {
           if(fieldGroupobj.fields == null || fieldGroupobj.fields.isEmpty()) continue;
           if(fieldGroupobj.rules != null && !fieldGroupobj.rules.isEmpty()) {
             for(Rule ruleObj : fieldGroupobj.rules) {
-              IValidator validator = validators.get(ruleObj.name);
-              if(validator != null && !validator.execute(fieldGroupobj, ruleObj)) {
-                results.put(fieldGroupobj.name, ruleObj.message);
+              try {
+                IValidator validator = validators.get(ruleObj.name);
+                if(validator != null && !validator.execute(fieldGroupobj, ruleObj)) {
+                  results.put(fieldGroupobj.name, ruleObj.message);
+                }
+              } catch(Exception e) {
+                results.put(fieldGroupobj.name, e.getMessage());
               }
             }
           }
@@ -67,8 +80,13 @@ public class ValidateService implements IValidateService {
     return results; 
   }
 
+  /**
+  * convert fields list to sobject
+  * @param Sobject new instance
+  * @param list of inputs
+  * @return SObject
+  */
   public sObject fieldsToObjectMapping(Sobject sObj, List<AbstractValidateInput> inputs) {
-    //Sobject sObj = Schema.getGlobalDescribe().get(sObjectName).newSObject()
     if(inputs == null || inputs.size() == 0) {
       return sObj;
     }

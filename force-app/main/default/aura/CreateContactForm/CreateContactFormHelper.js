@@ -5,7 +5,6 @@
 		action.setCallback(this, function(response) {
 			var state = response.getState();
 			if (state === 'SUCCESS') {
-				console.log(response.getReturnValue());
 				cmp.set('v.newContact', response.getReturnValue());
 			}
 

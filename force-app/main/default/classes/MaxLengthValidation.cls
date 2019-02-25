@@ -20,9 +20,7 @@ public class MaxLengthValidation implements IValidator {
     Integer length = fieldObj.value.length();
     String maxString = ruleObj.getParameter('value');
     Integer max = maxString.isNumeric() ? Integer.valueOf(maxString) : -1;
-    if(max == -1) {
-      return false;
-    }
-    return length <= max;
+    
+    return (max == -1) ? false : length <= max;
   }
 }
